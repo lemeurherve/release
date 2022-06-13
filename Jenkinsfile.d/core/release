@@ -9,6 +9,7 @@
 pipeline {
   agent {
     kubernetes {
+      label 'release-linux'
       yamlFile 'PodTemplates.d/release-linux.yaml'
     }
   }
@@ -21,7 +22,7 @@ pipeline {
         'stable-rc',
         'weekly'
       ],
-      description: 'Define which release profile we are going to use. https://github.com/jenkins-infra/release/tree/master/profile.d',
+      description: 'Define which release profile we are going to use. https://git.io/Jv7Nr',
       name: 'RELEASE_PROFILE'
     )
     string(

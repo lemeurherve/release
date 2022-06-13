@@ -77,7 +77,6 @@ function configureKeystore(){
   case "$SIGN_CERTIFICATE" in
     *.pem )
       openssl pkcs12 -export \
-        -legacy `# https://github.com/openssl/openssl/issues/11672` \
         -out "$SIGN_KEYSTORE" \
         -in "${SIGN_CERTIFICATE}" \
         -password "pass:$SIGN_STOREPASS" \
@@ -86,14 +85,8 @@ function configureKeystore(){
     *.pfx )
       # pfx file download from azure key vault are not password protected, which is required for maven release plugin
       # so we need to add a new password
-      openssl pkcs12 \
-        -in "${SIGN_CERTIFICATE}" \
-        -legacy `# https://github.com/openssl/openssl/issues/11672` \
-        -out tmpjenkins.pem \
-        -nodes \
-        -passin pass:""
+      openssl pkcs12 -in "${SIGN_CERTIFICATE}" -out tmpjenkins.pem -nodes -passin pass:""
       openssl pkcs12 -export \
-        -legacy `# https://github.com/openssl/openssl/issues/11672` \
         -out "$SIGN_KEYSTORE" \
         -in tmpjenkins.pem \
         -password "pass:$SIGN_STOREPASS" \
@@ -436,7 +429,7 @@ function stageRelease(){
   # 2020-06-24: --no-transfer-progress doesn't seem to be fully suported in maven release plugin
   # This workaround can be reverted once MRELEASE-1048 is fixed
   # https://issues.apache.org/jira/browse/MRELEASE-1048
-  mvn -V -B \
+  mvn -B \
     "-DstagingRepository=${MAVEN_REPOSITORY_NAME}::default::${MAVEN_REPOSITORY_URL}/${MAVEN_REPOSITORY_NAME}" \
     -s settings-release.xml \
     --no-transfer-progress \
@@ -574,7 +567,7 @@ function main(){
             --showPackagingPlan) echo "Show Packaging Plan" && showPackagingPlan ;;
             --promoteStagingMavenArtifacts) echo "Promote Staging Maven Artifacts" && promoteStagingMavenArtifacts ;;
             --promoteStagingGitRepository) echo "Promote Staging Git Repository" && promoteStagingGitRepository ;;
-            --rollback) echo "Rollback release $RELEASE_SCM_TAG" && rollback ;;
+            --rollback) echo "Rollback release $RELEASE_SCM_TAG" && rollblack ;;
             --stageRelease) echo "Stage Release" && stageRelease ;;
             --packaging) echo 'Execute packaging makefile, quote required around Makefile target' && packaging "$2";;
             --syncMirror) echo 'Trigger mirror synchronization' && syncMirror ;;
