@@ -85,8 +85,8 @@ The [documentation](https://github.com/jenkins-infra/release/blob/master/docs/re
 
 ## LTS release
 
-- [ ] Check with the Jenkins Infrastructure team that backports on repositories [jenkinsci/packaging](https://github.com/jenkinsci/packaging), [jenkinsci/docker](https://github.com/jenkinsci/docker) and [jenkins-infra/release](https://github.com/jenkins-infra/release) are completed and merged.
-  - A message two or three days prior to the release in the Matrix channel `#jenkins-infra` mentioning this issue and this item is enough
+- [ ] Check with the Jenkins Infrastructure team that backports on repositories [jenkinsci/packaging](https://github.com/jenkinsci/packaging), [jenkinsci/docker](https://github.com/jenkinsci/docker) and [jenkins-infra/release](https://github.com/jenkins-infra/release) are completed, up to date and merged.
+  - A message two or three days prior to the release in the Matrix channel `#jenkins-infra` mentioning this issue and the backports preparation helpdesk issue is enough.
 
 - [ ] Ensure `JENKINS_VERSION` is updated to the proper version in the packaging profile: https://github.com/jenkins-infra/release/blob/stable-2.xxx/profile.d/stable
 
